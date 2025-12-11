@@ -9,7 +9,7 @@ function Card({
 }) {
   return (
     <>
-      <div className="max-w-sm bg-white border border-gray-300 rounded-xl shadow-md overflow-hidden hover:transition hover:shadow-lg">
+      <div className=" hover:scale-105 transition-all hover:duration-300 max-w-sm bg-white border border-gray-300 rounded-xl shadow-md overflow-hidden hover:transition hover:shadow-lg">
         <img
           className="w-full h-40 object-cover"
           src={imageUrl}

@@ -2,6 +2,7 @@ import "./App.css";
 import Card from "./components/Card";
 import Header from "./components/Header.jsx";
 import Hero from "./components/Hero.jsx";
+import { Button } from "./components/ui/button.tsx";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <div className="flex flex-col space-y-3 ">
         <Hero />
         <Header />
+        <Button> Click me</Button>
 
         <div className="p-4 flex flex-col h-screen space-y-4">
           <h1 className="text-sky-600 font-semibold bg-gray-400/15 p-4 text-xl rounded-xl text-center">
@@ -16,7 +18,7 @@ function App() {
           </h1>
 
           {/* Card */}
-          <div className="p-2 flex gap-3">
+          <div className="p-2 flex gap-3 flex-wrap">
             <Card
               title={"Python Course"}
               buttonText="Buy at $100/ only"
