@@ -39,7 +39,9 @@ function Container({ children, layout = "grid" }) {
 function ChildrenProps() {
   return (
     <section className="p-8 bg-white rounded-lg shadow-md space-y-6">
-      <h1 className="text-2xl font-bold text-black">Children Props</h1>
+      <h1 className="text-gray-800 text-center text-3xl font-bold mb-2">
+        Children Props
+      </h1>
 
       <p className="text-gray-600">
         Children props allow you to pass components as data to other components,
