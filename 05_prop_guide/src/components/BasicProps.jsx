@@ -55,9 +55,7 @@ function BasicProps() {
 
   return (
     <section className="bg-white text-black p-6 rounded-lg shadow-sm">
-      <h2 className="text-gray-800 text-center text-3xl font-bold mb-2">
-        Basic Props
-      </h2>
+      <h2 className="text-2xl font-bold mb-2">Basic Props</h2>
 
       <p className="text-gray-600 mb-6">
         Props are arguments passed to React components. They allow you to pass

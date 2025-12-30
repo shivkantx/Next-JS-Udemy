@@ -19,7 +19,7 @@ function QueueDisplay({ queue, updateStatus, removeFromQueue }) {
       <h1 className="text-3xl font-bold text-white">Current Queue</h1>
 
       {queue.length === 0 ? (
-        <p className="text-gray-400">No customers yet.</p>
+        <p className="text-gray-400">No customer yet.</p>
       ) : (
         queue.map((customer) => (
           <div
@@ -29,8 +29,6 @@ function QueueDisplay({ queue, updateStatus, removeFromQueue }) {
             <div>
               <p className="font-semibold">{customer.name}</p>
               <p className="text-sm text-blue-400">{customer.service}</p>
-
-              {/* Dynamic Status Color */}
               <p
                 className={`text-xs capitalize ${getSatusColor(
                   customer.status
@@ -41,6 +39,7 @@ function QueueDisplay({ queue, updateStatus, removeFromQueue }) {
             </div>
 
             <div className="flex gap-2">
+              {/* Serve Button - hides when completed */}
               {customer.status !== "completed" && (
                 <button
                   onClick={() => updateStatus(customer.id, "completed")}
@@ -50,6 +49,7 @@ function QueueDisplay({ queue, updateStatus, removeFromQueue }) {
                 </button>
               )}
 
+              {/* Remove Button */}
               <button
                 onClick={() => removeFromQueue(customer.id)}
                 className="px-3 py-1 bg-red-600 text-white rounded text-sm cursor-pointer"

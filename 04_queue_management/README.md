@@ -1,16 +1,64 @@
-# React + Vite
+# Queue Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A lightweight and efficient **Queue Management System** built using **React**.  
+This project allows users to manage customer queues easily — add customers, update their status, and remove them once completed.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## React Compiler
+### 🔹 1. Add Customers to Queue
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Enter customer details and instantly add them to the active queue.
 
-## Expanding the ESLint configuration
+### 🔹 2. Update Customer Status
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Each customer can move through three stages:
+
+- **Waiting**
+- **In-Service**
+- **Completed**
+
+Status color changes automatically:
+
+- 🟡 Waiting
+- 🔵 In-Service
+- 🟢 Completed
+
+### 🔹 3. Remove Customers
+
+- Completed customers can be removed with a single click.
+
+### 🔹 4. Real-Time UI Updates
+
+- Every action updates the interface immediately using React state.
+
+### 🔹 5. Responsive & Clean UI
+
+- Built with modern layout principles
+- Works smoothly on both desktop and mobile
+
+### 🔹 6. Simple & Beginner-Friendly Code Structure
+
+- Uses React hooks (`useState`)
+- Easy to expand and customize
+
+---
+
+## 🛠️ Tech Used
+
+- **React.js**
+- **JavaScript (ES6+)**
+- **Tailwind CSS**
+- **Vite / CRA**
+
+---
+
+## 📦 Installation
+
+```bash
+git clone https://github.com/shivkantx/Queue-Management-System.git
+cd Queue-Management-System
+npm install
+npm run dev
+```
