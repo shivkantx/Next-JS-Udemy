@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript DOM Fun Examples</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background-color: #f6f7f9;
+        color: #2d2d2d;
+        padding: 30px 20px;
+        line-height: 1.6;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 2.3rem;
+        color: #333;
+      }
+
+      section {
+        max-width: 720px;
+        margin: 0 auto 35px auto;
+        background-color: #ffffff;
+        padding: 24px 26px;
+        border-radius: 10px;
+        border: 1px solid #e1e1e1;
+      }
+
+      h2 {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: #444;
+        border-left: 4px solid #b5b5b5;
+        padding-left: 10px;
+      }
+
+      p {
+        margin-bottom: 10px;
+      }
+
+      button {
+        padding: 9px 18px;
+        background-color: #e0e0e0;
+        border: 1px solid #cfcfcf;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        color: #333;
+        transition: background-color 0.2s ease;
+      }
+
+      button:hover {
+        background-color: #d6d6d6;
+      }
+
+      ul {
+        list-style: none;
+        margin-top: 10px;
+      }
+
+      li {
+        padding: 8px 12px;
+        margin: 6px 0;
+        background-color: #f1f1f1;
+        border-radius: 6px;
+      }
+
+      li.teaItem:hover {
+        background-color: #e5e5e5;
+        cursor: pointer;
+      }
+
+      input[type="text"] {
+        padding: 8px;
+        width: 65%;
+        border: 1px solid #cfcfcf;
+        border-radius: 6px;
+        margin-right: 8px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 6px;
+        color: #555;
+      }
+
+      #feedbackDisplay {
+        margin-top: 12px;
+        font-style: italic;
+        color: #555;
+      }
+
+      .highlight {
+        background-color: #fff3b0;
+        font-weight: 600;
+      }
+    </style>
+
+    <script defer src="script.js"></script>
+  </head>
+
+  <body>
+    <h1>JavaScript DOM Fun Examples</h1>
+
+    <!-- Example 1: Accessing DOM Element -->
+    <section id="example-1">
+      <h2>1. Accessing DOM Element</h2>
+      <p id="myParagraph">This is paragraph. Click the button to change me!</p>
+      <button id="changeTextButton">Change Text</button>
+    </section>
+
+    <!-- Example 2: Traversing DOM -->
+    <section id="example-2">
+      <h2>2. Traversing the DOM</h2>
+      <ul id="citiesList">
+        <li>New York</li>
+        <li>Tokyo</li>
+        <li>Paris</li>
+        <li>London</li>
+      </ul>
+      <button id="highlightFirstCity">Highlight First City</button>
+    </section>
+
+    <!-- Example 3: Manipulating DOM Element -->
+    <section id="example-3">
+      <h2>3. Manipulating DOM Element</h2>
+      <div>Order: <span id="coffeeType">Latte</span></div>
+      <button id="changeOrder">Change Order to Espresso</button>
+    </section>
+
+    <!-- Example 4: Creating and Inserting Elements -->
+    <section id="example-4">
+      <h2>4. Creating and Inserting Elements</h2>
+      <button id="addNewItem">Add a new item to the shopping list</button>
+      <ul id="shoppingList">
+        <li>Bread</li>
+        <li>Milk</li>
+      </ul>
+    </section>
+
+    <!-- Example 5: Removing DOM Elements -->
+    <section id="example-5">
+      <h2>5. Removing DOM Elements</h2>
+      <ul id="taskList">
+        <li>Task 1</li>
+        <li>Task 2</li>
+        <li>Task 3</li>
+      </ul>
+      <button id="removeLastTask">Remove Last Task</button>
+    </section>
+
+    <!-- Example 6: Event Handling -->
+    <section id="example-6">
+      <h2>6. Event Handling in DOM</h2>
+      <button id="clickMeButton">Click Me!</button>
+    </section>
+
+    <!-- Example 7: Event Delegation -->
+    <section id="example-7">
+      <h2>7. Event Delegation</h2>
+      <ul id="teaList">
+        <li class="teaItem">Green Tea</li>
+        <li class="teaItem">Black Tea</li>
+        <li class="teaItem">Oolong Tea</li>
+      </ul>
+      <p>Click on any tea to select it</p>
+    </section>
+
+    <!-- Example 8: Form Handling -->
+    <section id="example-8">
+      <h2>8. Form Handling</h2>
+      <form id="feedbackForm">
+        <label for="feedbackInput">Your Feedback:</label>
+        <input type="text" id="feedbackInput" placeholder="Enter feedback" />
+        <button type="submit">Submit</button>
+        <p id="feedbackDisplay"></p>
+      </form>
+    </section>
+
+    <!-- example 9 :  Dom Content loaded -->
+    <section id="example-9">
+      <h2>9. Dom Content loaded</h2>
+      <p id="domStatus">Waiting for dom to load...</p>
+    </section>
+
+    <!-- example 10 :  CSS Class Manuplulation -->
+    <section id="example-10">
+      <h2>10. CSS Class Manuplulation</h2>
+      <p id="descriptionText">This text will change the color!</p>
+      <button id="toggleHighlight">Toggle Highlight</button>
+    </section>
+  </body>
+</html>
