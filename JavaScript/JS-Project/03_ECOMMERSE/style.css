@@ -1,0 +1,412 @@
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap");
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #000d1a;
+  --card: rgba(0, 20, 45, 0.78);
+  --border: rgba(0, 140, 220, 0.18);
+  --border-h: rgba(0, 200, 255, 0.45);
+  --blue-1: #0072ff;
+  --blue-2: #00c8ff;
+  --accent: #00eaff;
+  --text-h: #e0f4ff;
+  --text: #7fb8d8;
+  --text-dim: #2e6480;
+  --danger: #ff4f7b;
+  --radius: 14px;
+  --radius-lg: 22px;
+}
+
+/* ─── Body ─── */
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  background-image:
+    radial-gradient(
+      ellipse 60% 50% at 10% 0%,
+      rgba(0, 114, 255, 0.2) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 90% 100%,
+      rgba(0, 234, 255, 0.12) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 40% 30% at 70% 50%,
+      rgba(0, 180, 220, 0.08) 0%,
+      transparent 70%
+    );
+  font-family: "DM Sans", sans-serif;
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 48px 16px 80px;
+}
+
+/* ─── Container ─── */
+.container {
+  width: 100%;
+  max-width: 740px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ─── h1 ─── */
+.container > h1 {
+  font-family: "Syne", sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text-h);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 26px 28px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(18px);
+  animation: fadeDown 0.45s ease both;
+}
+
+/* ─── h2 ─── */
+.container > h2 {
+  font-family: "Syne", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: fadeUp 0.45s ease both;
+}
+
+.container > h2::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--blue-2);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--blue-2);
+}
+
+.container > h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+
+/* ─── Product List ─── */
+#product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  gap: 14px;
+  padding: 24px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(18px);
+  animation: fadeUp 0.5s ease both;
+}
+
+#product-list > div {
+  background: rgba(0, 10, 28, 0.85);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition:
+    border-color 0.25s,
+    transform 0.25s,
+    box-shadow 0.25s;
+  animation: popIn 0.35s ease both;
+}
+
+#product-list > div:hover {
+  border-color: var(--border-h);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 114, 255, 0.2);
+}
+
+#product-list > div button {
+  margin-top: 6px;
+  padding: 9px 14px;
+  background: linear-gradient(135deg, var(--blue-1), var(--accent));
+  color: #fff;
+  font-family: "Syne", sans-serif;
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    opacity 0.2s,
+    transform 0.2s,
+    box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(0, 114, 255, 0.3);
+}
+
+#product-list > div button:hover {
+  opacity: 0.88;
+  transform: scale(1.04);
+  box-shadow: 0 6px 22px rgba(0, 234, 255, 0.38);
+}
+
+#product-list > div button:active {
+  transform: scale(0.97);
+}
+
+/* ─── Cart Items ─── */
+#cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(18px);
+  min-height: 80px;
+  animation: fadeUp 0.55s ease both;
+}
+
+#empty-cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  gap: 6px;
+  color: var(--text-dim);
+  font-family: "Syne", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-align: center;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+#empty-cart::before {
+  content: "◇";
+  font-size: 2.2rem;
+  display: block;
+  margin-bottom: 8px;
+  opacity: 0.5;
+}
+
+#cart-items > div:not(#empty-cart) {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 16px;
+  background: rgba(0, 10, 28, 0.8);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
+  animation: slideIn 0.3s ease both;
+}
+
+#cart-items > div:not(#empty-cart):hover {
+  border-color: var(--border-h);
+  transform: translateX(3px);
+}
+
+#cart-items > div:not(#empty-cart) button {
+  background: none;
+  border: 1px solid rgba(255, 79, 123, 0.25);
+  color: var(--danger);
+  font-family: "Syne", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 5px 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    opacity 0.2s,
+    transform 0.15s;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+#cart-items > div:not(#empty-cart) button:hover {
+  background: rgba(255, 79, 123, 0.12);
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* ─── Cart Total ─── */
+#cart-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(18px);
+  flex-wrap: wrap;
+  animation: fadeUp 0.6s ease both;
+}
+
+.total-line {
+  font-family: "Syne", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#total-price {
+  font-family: "Syne", sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--text-h), var(--blue-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: block;
+}
+
+#checkout-btn {
+  padding: 14px 30px;
+  background: linear-gradient(135deg, var(--blue-1), var(--accent));
+  color: #fff;
+  font-family: "Syne", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    opacity 0.25s,
+    transform 0.25s,
+    box-shadow 0.25s;
+  box-shadow: 0 6px 24px rgba(0, 114, 255, 0.35);
+}
+
+#checkout-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 32px rgba(0, 234, 255, 0.42);
+}
+
+#checkout-btn:active {
+  transform: scale(0.97);
+}
+
+/* ─── Hidden ─── */
+.hidden {
+  display: none !important;
+}
+
+/* ─── Animations ─── */
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-h);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 520px) {
+  #product-list {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 16px;
+  }
+  .container > h1 {
+    font-size: 1.4rem;
+    padding: 20px;
+  }
+  #cart-total {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  #checkout-btn {
+    width: 100%;
+  }
+}
