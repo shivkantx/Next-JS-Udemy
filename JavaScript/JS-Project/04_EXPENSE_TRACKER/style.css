@@ -1,0 +1,367 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Figtree:wght@300;400;500;600;700&display=swap");
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #1a0e08;
+  --surface: rgba(38, 20, 10, 0.92);
+  --surface-2: rgba(48, 26, 12, 0.85);
+  --border: rgba(210, 120, 60, 0.15);
+  --border-h: rgba(230, 150, 80, 0.45);
+  --terra: #c1522a;
+  --sienna: #e07840;
+  --cream: #f5e8d0;
+  --cream-dim: #c4a882;
+  --teal: #2ab8a0;
+  --teal-dim: rgba(42, 184, 160, 0.12);
+  --text-h: #f5e8d0;
+  --text: #a8845c;
+  --text-dim: #5c3e28;
+  --danger: #e05858;
+  --radius: 10px;
+  --radius-lg: 18px;
+}
+
+/* ─── Body ─── */
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  background-image:
+    radial-gradient(
+      ellipse 65% 45% at 20% 0%,
+      rgba(193, 82, 42, 0.18) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 50% 35% at 85% 90%,
+      rgba(42, 184, 160, 0.12) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 35% 50% at 90% 10%,
+      rgba(224, 120, 64, 0.07) 0%,
+      transparent 55%
+    );
+  font-family: "Figtree", sans-serif;
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 52px 16px 80px;
+}
+
+/* ─── Container ─── */
+.container {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ─── H1 ─── */
+.container > h1 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: var(--cream);
+  padding: 24px 24px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(20px);
+  animation: fadeDown 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  position: relative;
+  overflow: hidden;
+}
+
+.container > h1:empty::before {
+  content: "Expense Tracker";
+}
+
+/* subtitle via after */
+.container > h1::after {
+  content: "PERSONAL FINANCE";
+  display: block;
+  font-family: "Figtree", sans-serif;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  color: var(--sienna);
+  margin-top: 8px;
+  opacity: 0.75;
+}
+
+/* ─── Form ─── */
+#expense-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(20px);
+  animation: fadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.06s both;
+}
+
+#expense-form input {
+  width: 100%;
+  padding: 13px 15px;
+  font-family: "Figtree", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--text-h);
+  background: rgba(10, 5, 2, 0.55);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  outline: none;
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s,
+    background 0.25s;
+  caret-color: var(--sienna);
+}
+
+#expense-form input::placeholder {
+  color: var(--text-dim);
+  font-size: 0.82rem;
+}
+
+#expense-form input:focus {
+  border-color: var(--sienna);
+  background: rgba(18, 8, 3, 0.7);
+  box-shadow: 0 0 0 3px rgba(224, 120, 64, 0.1);
+}
+
+#expense-form button[type="submit"] {
+  grid-column: 1 / -1;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--terra), var(--sienna));
+  color: var(--cream);
+  font-family: "Figtree", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  margin-top: 4px;
+  transition: all 0.25s;
+  box-shadow: 0 6px 22px rgba(193, 82, 42, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+#expense-form button[type="submit"]::after {
+  content: "＋";
+  margin-left: 8px;
+  font-size: 1rem;
+  line-height: 0;
+  vertical-align: middle;
+}
+
+#expense-form button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(193, 82, 42, 0.45);
+  filter: brightness(1.08);
+}
+
+#expense-form button[type="submit"]:active {
+  transform: scale(0.98);
+}
+
+/* ─── H2 ─── */
+.container > h2 {
+  font-family: "Figtree", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--teal);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0.8;
+  animation: fadeUp 0.5s ease 0.12s both;
+}
+
+.container > h2::before {
+  content: "";
+  width: 24px;
+  height: 1.5px;
+  background: var(--teal);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.container > h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+
+/* ─── Expense List ─── */
+#expense-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: fadeUp 0.5s ease 0.18s both;
+}
+
+#expense-list li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 20px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  transition:
+    border-color 0.22s,
+    transform 0.22s,
+    box-shadow 0.22s;
+  animation: slideIn 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Teal dot indicator */
+#expense-list li::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  background: var(--teal);
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(42, 184, 160, 0.5);
+  transition: transform 0.2s;
+}
+
+#expense-list li:hover {
+  border-color: var(--border-h);
+  transform: translateX(5px);
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.35);
+}
+
+#expense-list li:hover::before {
+  transform: scale(1.4);
+}
+
+#expense-list li span:first-child {
+  flex: 1;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-h);
+  letter-spacing: 0.01em;
+}
+
+#expense-list li span:last-of-type {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--sienna);
+  letter-spacing: 0.01em;
+  background: rgba(224, 120, 64, 0.1);
+  padding: 3px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(224, 120, 64, 0.18);
+}
+
+#expense-list li button {
+  background: none;
+  border: 1px solid rgba(224, 88, 88, 0.2);
+  color: var(--danger);
+  font-family: "Figtree", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+#expense-list li button:hover {
+  background: rgba(224, 88, 88, 0.1);
+  border-color: rgba(224, 88, 88, 0.45);
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* ─── Animations ─── */
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-h);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 480px) {
+  .container > h1 {
+    font-size: 2rem;
+    padding: 24px;
+  }
+  #expense-form {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+  body {
+    padding: 28px 12px 60px;
+  }
+}
