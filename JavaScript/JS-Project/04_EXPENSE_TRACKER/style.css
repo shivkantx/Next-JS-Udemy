@@ -87,7 +87,6 @@ body {
   content: "Expense Tracker";
 }
 
-/* subtitle via after */
 .container > h1::after {
   content: "PERSONAL FINANCE";
   display: block;
@@ -155,7 +154,7 @@ body {
   border: none;
   border-radius: var(--radius);
   cursor: pointer;
-  margin-top: 4px;
+  margin-top: 8px;
   transition: all 0.25s;
   box-shadow: 0 6px 22px rgba(193, 82, 42, 0.35);
   position: relative;
@@ -238,7 +237,6 @@ body {
   overflow: hidden;
 }
 
-/* Teal dot indicator */
 #expense-list li::before {
   content: "";
   width: 7px;
@@ -302,6 +300,38 @@ body {
   border-color: rgba(224, 88, 88, 0.45);
   opacity: 1;
   transform: scale(1.05);
+}
+
+/* ─── Total (upgraded) ── */
+#total {
+  padding: 22px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--terra);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  animation: fadeUp 0.5s ease 0.22s both;
+}
+
+#total h3 {
+  font-family: "Figtree", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+#total-amount {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2.6rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--cream);
+  line-height: 1;
+  text-shadow: 0 0 40px rgba(224, 120, 64, 0.3);
 }
 
 /* ─── Animations ─── */

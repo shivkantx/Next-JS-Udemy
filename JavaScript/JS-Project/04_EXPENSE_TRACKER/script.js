@@ -13,36 +13,25 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
 
     const name = expenseNameInput.value.trim();
-    const expense = expenseAmountInput.value.trim();
+    const amount = expenseAmountInput.value.trim();
 
-    if (name === "" || expense === "") return;
+    if (name === "" || amount === "") return;
 
-    addExpenses(name, expense);
+    addExpenses(name, amount);
 
     expenseNameInput.value = "";
     expenseAmountInput.value = "";
   });
 
-  function addExpenses(name, expance) {
-    const newExpense = {
-      name: name,
-      amount: Number(expance),
-    };
-
-    expenses.push(newExpense);
+  function addExpenses(name, amount) {
+    expenses.push({ name, amount: Number(amount) });
     totalAmount = calculateTotalAmount();
     saveLocalStorage();
     renderExpenses();
   }
 
   function calculateTotalAmount() {
-    let total = 0;
-
-    expenses.forEach((item) => {
-      total += Number(item.amount);
-    });
-
-    return total;
+    return expenses.reduce((total, item) => total + Number(item.amount), 0);
   }
 
   function saveLocalStorage() {
@@ -54,17 +43,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     expenses.forEach((item, index) => {
       const li = document.createElement("li");
-      li.innerHTML = `${item.name} - ${item.amount} <button>remove</button>`;
+      // ✅ span tags so CSS styles name + amount correctly
+      li.innerHTML = `
+        <span>${item.name}</span>
+        <span>$${Number(item.amount).toFixed(2)}</span>
+        <button>Remove</button>
+      `;
 
-      const removeBtn = li.querySelector("button");
-      removeBtn.addEventListener("click", (e) => {
+      li.querySelector("button").addEventListener("click", (e) => {
         e.stopPropagation();
-
         expenses.splice(index, 1);
         totalAmount = calculateTotalAmount();
         saveLocalStorage();
         renderExpenses();
       });
+
       expenseList.appendChild(li);
     });
 
