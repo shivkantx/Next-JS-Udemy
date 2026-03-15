@@ -7,14 +7,18 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: 5, name: "Logitech MX Master 3S Mouse", price: 9995 },
   ];
 
-  const cart = [];
-
   const productList = document.getElementById("product-list");
   const cartItems = document.getElementById("cart-items");
   const emptyCartMessage = document.getElementById("empty-cart");
   const cartTotalMessage = document.getElementById("cart-total");
   const totalPriceDisplay = document.getElementById("total-price");
   const checkOutBtn = document.getElementById("checkout-btn");
+
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // Render cart when page loads
+  renderCart();
+  console.log(cart);
 
   products.forEach((product) => {
     const productDiv = document.createElement("div");
@@ -35,7 +39,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function addToCart(product) {
     cart.push(product);
+    saveToLocalStorage();
     renderCart();
+  }
+
+  function saveToLocalStorage() {
+    localStorage.setItem("cart", JSON.stringify(cart));
   }
 
   function renderCart() {
@@ -71,6 +80,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target.classList.contains("remove-btn")) {
       const index = parseInt(e.target.getAttribute("data-index"));
       cart.splice(index, 1);
+      saveToLocalStorage();
+
       renderCart();
     }
   });
@@ -78,6 +89,9 @@ document.addEventListener("DOMContentLoaded", () => {
   checkOutBtn.addEventListener("click", () => {
     cart.length = 0;
     alert("Checked out successfully!");
+    localStorage.removeItem("cart");
+    console.log(cart);
+
     renderCart();
   });
 });
