@@ -1,8 +1,17 @@
-export default function DashboardLayout({ stats, feed }) {
+import Link from "next/link";
+
+export default function DashboardMainLayout({ tab1, tab2 }) {
   return (
-    <div style={{ display: "flex", gap: "20px", color: "gray-900" }}>
-      <div style={{ flex: 2, backgroundColor: "#f9fafb" }}>{stats}</div>
-      <div style={{ flex: 1, backgroundColor: "lightgray" }}>{feed}</div>
+    <div className="text-gray-900">
+      <nav style={{ marginBottom: "10px" }}>
+        <Link href="/dashboard-main">Tab 1</Link> |{" "}
+        <Link href="/dashboard-main">Tab 2</Link>
+      </nav>
+
+      <div>
+        {tab1}
+        {tab2}
+      </div>
     </div>
   );
 }
