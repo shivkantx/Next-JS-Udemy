@@ -1,7 +1,3 @@
-import React from "react";
-
-function Tab2Page() {
-  return <div className="text-gray-900">Tab2Page</div>;
+export default function Default() {
+  return <div className="text-gray-900">Default Tab2</div>;
 }
-
-export default Tab2Page;
