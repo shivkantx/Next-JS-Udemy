@@ -1,19 +1,23 @@
 import { NextResponse } from "next/server";
-import { users } from "../../hello/route";
+import { users } from "../../hello/route.js";
 
 export async function PUT(request, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const userId = Number(id);
+
+    if (isNaN(userId)) {
+      return NextResponse.json(
+        { success: false, error: "Invalid ID" },
+        { status: 400 },
+      );
+    }
 
     const userIndex = users.findIndex((user) => user.id === userId);
 
     if (userIndex === -1) {
       return NextResponse.json(
-        {
-          success: false,
-          error: "User not found!",
-        },
+        { success: false, error: "User not found!" },
         { status: 404 },
       );
     }
@@ -22,20 +26,12 @@ export async function PUT(request, { params }) {
 
     if (!name || !email || !age) {
       return NextResponse.json(
-        {
-          success: false,
-          error: "Name, email and age are required",
-        },
+        { success: false, error: "All fields required" },
         { status: 400 },
       );
     }
 
-    users[userIndex] = {
-      id: userId,
-      name,
-      email,
-      age,
-    };
+    users[userIndex] = { id: userId, name, email, age };
 
     return NextResponse.json(
       {
@@ -47,10 +43,7 @@ export async function PUT(request, { params }) {
     );
   } catch (error) {
     return NextResponse.json(
-      {
-        success: false,
-        error: "Failed to update user",
-      },
+      { success: false, error: "Failed to update user" },
       { status: 500 },
     );
   }
