@@ -1,23 +1,23 @@
 import { NextResponse } from "next/server";
 import { users } from "../hello/route";
-import { error } from "console";
 
 export async function POST(request) {
   try {
     const { name, email, age } = await request.json();
+
     if (!name || !email || !age) {
-      return NextResponse(
+      return NextResponse.json(
         {
           success: false,
-          error: "Name , email and age is required",
+          error: "Name, email and age are required",
         },
         { status: 400 },
       );
     }
 
-    const emailExists = users.find((user) => users.email === email);
+    const emailExists = users.find((user) => user.email === email);
 
-    if (!emailExists) {
+    if (emailExists) {
       return NextResponse.json(
         {
           success: false,
@@ -29,25 +29,26 @@ export async function POST(request) {
 
     const newUser = {
       id: users.length + 1,
-      name: name,
-      email: email,
-      age: age,
+      name,
+      email,
+      age,
     };
 
     users.push(newUser);
+
     return NextResponse.json(
       {
         success: true,
-        message: "User Created successfully!",
+        message: "User created successfully!",
         data: users,
       },
-      { status: 200 },
+      { status: 201 },
     );
   } catch (error) {
     return NextResponse.json(
       {
         success: false,
-        error: "failed to create user",
+        error: "Failed to create user",
       },
       { status: 500 },
     );
