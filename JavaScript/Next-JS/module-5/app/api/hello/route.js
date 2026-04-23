@@ -1,3 +1,4 @@
+import { log } from "console";
 import { NextResponse } from "next/server";
 
 export const users = [
@@ -7,10 +8,25 @@ export const users = [
 ];
 export async function GET(request) {
   try {
+    const searchParams = request.nextUrl.searchParams;
+    const name = searchParams.get("name");
+    const age = searchParams.get("age");
+    console.log(age, name);
+
+    let filterusers = users;
+    if (age) {
+      filterusers = filterusers.filter((user) => user.age === Number(age));
+    }
+    if (name) {
+      filterusers = filterusers.filter((user) =>
+        user.name.toLowerCase().includes(name.toLowerCase()),
+      );
+    }
+
     return NextResponse.json({
       success: true,
-      data: users,
-      total: users.length,
+      data: filterusers,
+      total: filterusers.length,
     });
   } catch (error) {
     return NextResponse.json(
