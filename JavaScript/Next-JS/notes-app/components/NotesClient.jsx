@@ -134,28 +134,7 @@ function NotesClient() {
         }
       `}</style>
 
-            {/* Header */}
-            <header className="sticky top-0 z-10 bg-[#F7F5F0]/90 backdrop-blur-md border-b border-[#E8E4DC]">
-                <div className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
-                    <a href="/" className="flex items-center gap-3 group">
-                        <div className="logo-icon w-8 h-8 rounded-lg bg-[#2C2C2C] flex items-center justify-center shadow-sm">
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                <rect x="2" y="2" width="10" height="1.5" rx="0.75" fill="#F7F5F0" />
-                                <rect x="2" y="6" width="7" height="1.5" rx="0.75" fill="#F7F5F0" />
-                                <rect x="2" y="10" width="8.5" height="1.5" rx="0.75" fill="#F7F5F0" />
-                            </svg>
-                        </div>
-                        <span className="font-dm text-[#2C2C2C] text-sm tracking-tight">my notes</span>
-                    </a>
-                    <div className="tag-line flex items-center gap-2 font-dm text-xs text-[#B5AFA7]">
-                        <span>Home</span>
-                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                            <path d="M3 7.5l2.5-2.5L3 2.5" stroke="#C8C3BB" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                        <span className="text-[#706A60]">New note</span>
-                    </div>
-                </div>
-            </header>
+
 
             {/* Page */}
             <main className="max-w-3xl mx-auto px-6 py-6">
