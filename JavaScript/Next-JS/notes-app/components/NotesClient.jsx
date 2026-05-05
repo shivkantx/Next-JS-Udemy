@@ -12,6 +12,10 @@ function NotesClient() {
     const [success, setSuccess] = React.useState(false);
     const [focused, setFocused] = React.useState(null);
 
+    const [editId, setEditId] = React.useState(null);
+    const [editTitle, setEditTitle] = React.useState("");
+    const [editContent, setEditContent] = React.useState("");
+
     const createNote = async (e) => {
         e.preventDefault();
         if (!title.trim() || !content.trim()) {
@@ -54,6 +58,7 @@ function NotesClient() {
             setLoading(false);
         }
     };
+
 
     const progress = Math.round((content.length / 2000) * 100);
     const words = content.trim() ? content.trim().split(/\s+/).length : 0;
