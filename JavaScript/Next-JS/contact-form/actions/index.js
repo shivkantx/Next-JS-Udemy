@@ -38,3 +38,19 @@ export async function createContact(formData) {
     };
   }
 }
+
+export async function getContacts() {
+  try {
+    await dbConnect();
+    const contacts = await Contact.find({}).sort({ createdAt: -1 }).lean();
+    return contacts.map((contact) => ({
+      ...contact,
+      _id: contact._id.toString(),
+      createdAt: contact.createdAt?.toString(),
+      updatedAt: contact.updatedAt?.toString(),
+    }));
+  } catch (error) {
+    console.log("Error fetching Contacts : ", error);
+    return [];
+  }
+}

@@ -102,7 +102,7 @@ function Contact() {
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="bg-violet-600 hover:bg-violet-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium py-2.5 rounded-lg transition-colors mt-1"
+                        className="bg-violet-600 hover:cursor-pointer hover:bg-violet-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium py-2.5 rounded-lg transition-colors mt-1"
                     >
                         {isSubmitting ? "Sending..." : "Send Message"}
                     </button>
