@@ -2,7 +2,7 @@
 
 import Contact from "@/models/Contact.js";
 import dbConnect from "@/lib/db.js";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 
 export async function createContact(formData) {
   try {
@@ -28,6 +28,7 @@ export async function createContact(formData) {
     });
 
     revalidatePath("/contacts");
+    revalidateTag("contact-stats");
 
     return {
       success: true,
@@ -79,6 +80,7 @@ export async function updateContact(contactId, status) {
     });
 
     revalidatePath("/contacts");
+    revalidateTag("contact-stats");
 
     return {
       success: true,
@@ -91,4 +93,32 @@ export async function updateContact(contactId, status) {
       error: "Failed to update status",
     };
   }
+}
+
+const getCacheStats = unstable_cache(
+  async () => {
+    await dbConnect();
+
+    const total = await Contact.countDocuments();
+    const newCount = await Contact.countDocuments({ status: "new" });
+    const readCount = await Contact.countDocuments({ status: "read" });
+    const repliedCount = await Contact.countDocuments({
+      status: "replied",
+    });
+
+    return {
+      total,
+      newCount,
+      readCount,
+      repliedCount,
+    };
+  },
+  ["contact-stats"],
+  {
+    tags: ["contact-stats"],
+  },
+);
+
+export async function getContactStats() {
+  return getCacheStats();
 }
