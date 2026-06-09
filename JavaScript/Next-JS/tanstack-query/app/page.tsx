@@ -1,23 +1,42 @@
 import UserList from "@/components/UserList";
+import AddUserForm from "@/components/AddUserForm";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <main className="max-w-3xl mx-auto px-4 py-10">
-        <div className="text-center mb-10">
-          <span className="inline-block text-xs font-medium tracking-widest uppercase text-blue-600 bg-blue-50 px-3 py-1 rounded-full mb-3">
+    <div className="min-h-screen bg-slate-950">
+      {/* Hero header */}
+      <div className="relative overflow-hidden border-b border-indigo-500/10">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-indigo-500/10 rounded-full blur-3xl" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-6 py-14 text-center">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-widest bg-indigo-500/15 border border-indigo-500/30 text-indigo-400 mb-5">
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
             TanStack Query
           </span>
-          <h1 className="text-3xl font-medium text-gray-900 mb-1">
-            Query Demo
+          <h1 className="text-4xl font-bold tracking-tight text-slate-100 mb-3">
+            User <span className="text-indigo-400">Management</span>
           </h1>
-          <p className="text-sm text-gray-500">
-            Live data fetching with caching, loading states, and error handling
+          <p className="text-sm text-slate-500 max-w-sm mx-auto leading-relaxed">
+            Create users and view the updated list instantly with React Query.
           </p>
         </div>
+      </div>
 
-        <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden">
-          <UserList />
+      {/* Content */}
+      <main className="max-w-7xl mx-auto px-4 py-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          {/* Left — Form */}
+          <div className="lg:col-span-4">
+            <div className="sticky top-6">
+              <AddUserForm />
+            </div>
+          </div>
+
+          {/* Right — User List */}
+          <div className="lg:col-span-8">
+            <UserList />
+          </div>
         </div>
       </main>
     </div>
