@@ -1,7 +1,8 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { RefreshCw, Mail, Users } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { RefreshCw, Mail, Users, Trash2 } from "lucide-react";
+import { useState, useEffect } from "react";
 
 interface User {
   id: number;
@@ -31,7 +32,18 @@ const AVATAR_STYLES = [
   "bg-green-500/20 text-green-400",
 ];
 
+async function deleteUser(id: number) {
+  const response = await fetch(`/api/users/${id}`, { method: "DELETE" });
+  if (!response.ok) throw new Error("Failed to delete");
+  return response.json();
+}
+
+type Toast = { type: "success" | "error" | "loading"; message: string } | null;
+
 export default function UserList() {
+  const [toast, setToast] = useState<Toast>(null);
+  const [deletingUser, setDeletingUser] = useState<User | null>(null);
+
   const {
     data: users,
     isLoading,
@@ -43,6 +55,44 @@ export default function UserList() {
     queryKey: ["users"],
     queryFn: fetchUsers,
   });
+
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      setToast({
+        type: "success",
+        message: `${deletingUser?.name ?? "User"} deleted successfully.`,
+      });
+      setDeletingUser(null);
+    },
+    onError: () => {
+      setToast({
+        type: "error",
+        message: `Failed to delete ${deletingUser?.name ?? "user"}. Please try again.`,
+      });
+      setDeletingUser(null);
+    },
+  });
+
+  // Auto-dismiss only success/error toasts, not loading
+  useEffect(() => {
+    if (!toast || toast.type === "loading") return;
+    const timer = setTimeout(() => setToast(null), 3000);
+    return () => clearTimeout(timer);
+  }, [toast]);
+
+  const isDeletingId = deleteMutation.isPending
+    ? deleteMutation.variables
+    : null;
+
+  const handleDelete = (user: User) => {
+    setDeletingUser(user);
+    setToast({ type: "loading", message: `Deleting ${user.name}…` });
+    deleteMutation.mutate(user.id);
+  };
 
   return (
     <section className="px-4 py-10 bg-slate-950 min-h-screen font-sans">
@@ -72,6 +122,36 @@ export default function UserList() {
           </button>
         </div>
 
+        {/* Single toast — handles loading, success, error */}
+        {toast && (
+          <div
+            className={`mx-5 my-3 flex items-center justify-between gap-2.5 px-4 py-3 rounded-xl border text-xs transition-all ${
+              toast.type === "loading"
+                ? "bg-rose-500/5 border-rose-500/15 text-rose-400"
+                : toast.type === "success"
+                  ? "bg-emerald-500/8 border-emerald-500/25 text-emerald-400"
+                  : "bg-rose-500/8 border-rose-500/25 text-rose-400"
+            }`}
+          >
+            <span className="flex items-center gap-2">
+              {toast.type === "loading" ? (
+                <RefreshCw size={12} className="animate-spin flex-shrink-0" />
+              ) : (
+                <span>{toast.type === "success" ? "✓" : "⚠"}</span>
+              )}
+              {toast.message}
+            </span>
+            {toast.type !== "loading" && (
+              <button
+                onClick={() => setToast(null)}
+                className="opacity-50 hover:opacity-100 transition-opacity text-base leading-none cursor-pointer"
+              >
+                ×
+              </button>
+            )}
+          </div>
+        )}
+
         {/* Loading skeleton */}
         {isLoading && (
           <div className="py-2">
@@ -87,7 +167,7 @@ export default function UserList() {
           </div>
         )}
 
-        {/* Error */}
+        {/* Fetch error */}
         {isError && (
           <div className="mx-5 my-4 flex items-center gap-3 px-4 py-3 rounded-xl bg-rose-500/8 border border-rose-500/25 text-rose-400 text-xs">
             <span className="text-base">⚠</span>
@@ -98,32 +178,56 @@ export default function UserList() {
         {/* Users list */}
         {!isLoading && !isError && (
           <ul>
-            {users?.map((user, i) => (
-              <li
-                key={user.id}
-                className="flex items-center gap-4 px-6 py-3 border-b border-indigo-500/6 last:border-0 hover:bg-indigo-500/5 transition-colors group"
-              >
-                <div
-                  className={`h-10 w-10 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold border border-transparent group-hover:border-indigo-500/50 transition-all ${AVATAR_STYLES[i % AVATAR_STYLES.length]}`}
+            {users?.map((user, i) => {
+              const isDeleting = isDeletingId === user.id;
+              return (
+                <li
+                  key={user.id}
+                  className={`flex items-center gap-4 px-6 py-3 border-b border-indigo-500/6 last:border-0 transition-colors group ${
+                    isDeleting
+                      ? "opacity-40 bg-rose-500/5"
+                      : "hover:bg-indigo-500/5"
+                  }`}
                 >
-                  {getInitials(user.name)}
-                </div>
+                  <div
+                    className={`h-10 w-10 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold border border-transparent group-hover:border-indigo-500/50 transition-all ${AVATAR_STYLES[i % AVATAR_STYLES.length]}`}
+                  >
+                    {getInitials(user.name)}
+                  </div>
 
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-slate-300 truncate">
-                    {user.name}
-                  </p>
-                  <p className="flex items-center gap-1.5 text-xs text-slate-500 font-mono mt-0.5 truncate">
-                    <Mail size={11} />
-                    {user.email}
-                  </p>
-                </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-slate-300 truncate">
+                      {user.name}
+                    </p>
+                    <p className="flex items-center gap-1.5 text-xs text-slate-500 font-mono mt-0.5 truncate">
+                      <Mail size={11} />
+                      {user.email}
+                    </p>
+                  </div>
 
-                <span className="text-[10px] font-mono text-slate-700 bg-slate-950 border border-indigo-500/10 rounded px-2 py-0.5 flex-shrink-0">
-                  #{String(user.id).padStart(3, "0")}
-                </span>
-              </li>
-            ))}
+                  <span className="text-[10px] font-mono text-slate-700 bg-slate-950 border border-indigo-500/10 rounded px-2 py-0.5 flex-shrink-0">
+                    #{String(user.id).padStart(3, "0")}
+                  </span>
+
+                  <button
+                    onClick={() => handleDelete(user)}
+                    disabled={isDeleting}
+                    aria-label={`Delete ${user.name}`}
+                    className="flex-shrink-0 p-2 rounded-lg hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                  >
+                    {isDeleting ? (
+                      <RefreshCw
+                        size={14}
+                        className="animate-spin"
+                        style={{ color: "#f43f5e" }}
+                      />
+                    ) : (
+                      <Trash2 size={14} style={{ color: "#f43f5e" }} />
+                    )}
+                  </button>
+                </li>
+              );
+            })}
 
             {users?.length === 0 && (
               <li className="py-16 text-center">
