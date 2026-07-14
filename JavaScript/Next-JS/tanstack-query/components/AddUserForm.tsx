@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { UserPlus, User, Mail, AlertCircle, CheckCircle2 } from "lucide-react";
 
 type UserData = {
@@ -19,9 +20,14 @@ async function addUser(userData: UserData) {
   return response.json();
 }
 
-function AddUserForm() {
+interface AddUserFormProps {
+  redirectOnSuccess?: string;
+}
+
+function AddUserForm({ redirectOnSuccess }: AddUserFormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const router = useRouter();
 
   const queryClient = useQueryClient();
 
@@ -31,6 +37,9 @@ function AddUserForm() {
       queryClient.invalidateQueries({ queryKey: ["users"] });
       setName("");
       setEmail("");
+      if (redirectOnSuccess) {
+        router.push(redirectOnSuccess);
+      }
     },
   });
 
@@ -41,97 +50,102 @@ function AddUserForm() {
   };
 
   return (
-    <section className="px-4 py-10 font-sans">
-      <div className="max-w-md mx-auto rounded-2xl overflow-hidden border border-indigo-500/20 bg-slate-900">
-        {/* Header */}
-        <div className="px-6 py-5 border-b border-indigo-500/10 bg-gradient-to-r from-indigo-500/5 to-transparent">
-          <div className="flex items-center gap-2 mb-1">
-            <UserPlus size={18} className="text-indigo-400" />
-            <h2 className="text-base font-semibold text-slate-200">
-              Add new user
-            </h2>
+    <section className="rounded-[32px] border border-white/10 bg-slate-900/85 p-6 shadow-2xl shadow-black/30 backdrop-blur-xl">
+      <div className="mb-8 space-y-3">
+        <div className="flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-indigo-500/10 text-indigo-300 ring-1 ring-indigo-500/20">
+            <UserPlus size={20} />
           </div>
-          <p className="text-xs text-slate-500 pl-6">
-            Fill in the details below to create an account
-          </p>
+          <div>
+            <p className="text-lg font-semibold text-slate-100">
+              Add a new user
+            </p>
+            <p className="text-sm text-slate-500">
+              Create a user and watch the directory refresh instantly.
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-3 text-xs uppercase tracking-[0.3em] text-slate-500">
+          <span className="rounded-full bg-white/5 px-3 py-1">
+            Fast onboarding
+          </span>
+          <span className="rounded-full bg-white/5 px-3 py-1">
+            Clean user list
+          </span>
+        </div>
+      </div>
+
+      <form className="space-y-5" onSubmit={handleSubmit}>
+        <div>
+          <label
+            htmlFor="name"
+            className="block text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 mb-2"
+          >
+            Full name
+          </label>
+          <div className="relative">
+            <User className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Jane Appleseed"
+              className="w-full rounded-3xl border border-slate-800 bg-slate-950/90 px-12 py-3 text-sm text-slate-200 placeholder:text-slate-600 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20"
+            />
+          </div>
         </div>
 
-        {/* Form */}
-        <form className="px-6 py-6 space-y-4" onSubmit={handleSubmit}>
-          {/* Name field */}
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-[10px] font-medium uppercase tracking-widest text-slate-500 mb-1.5"
-            >
-              Full name
-            </label>
-            <div className="relative">
-              <User
-                size={14}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600 pointer-events-none"
-              />
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Jane Appleseed"
-                className="w-full bg-slate-950 border border-indigo-500/15 rounded-xl pl-9 pr-4 py-2.5 text-sm text-slate-300 placeholder-slate-700 outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/25 transition-all"
-              />
-            </div>
-          </div>
-
-          {/* Email field */}
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-[10px] font-medium uppercase tracking-widest text-slate-500 mb-1.5"
-            >
-              Email address
-            </label>
-            <div className="relative">
-              <Mail
-                size={14}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600 pointer-events-none"
-              />
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="jane@example.com"
-                className="w-full bg-slate-950 border border-indigo-500/15 rounded-xl pl-9 pr-4 py-2.5 text-sm text-slate-300 placeholder-slate-700 font-mono outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/25 transition-all"
-              />
-            </div>
-          </div>
-
-          {/* Error */}
-          {mutation.isError && (
-            <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-rose-500/8 border border-rose-500/25 text-rose-400 text-xs">
-              <AlertCircle size={14} className="flex-shrink-0" />
-              Failed to add user. Please try again.
-            </div>
-          )}
-
-          {/* Success */}
-          {mutation.isSuccess && (
-            <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-emerald-500/8 border border-emerald-500/25 text-emerald-400 text-xs">
-              <CheckCircle2 size={14} className="flex-shrink-0" />
-              User added successfully!
-            </div>
-          )}
-
-          {/* Submit */}
-          <button
-            type="submit"
-            disabled={mutation.isPending}
-            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-indigo-500/15 border border-indigo-500/35 text-indigo-300 text-sm font-medium hover:bg-indigo-500/25 hover:border-indigo-500/55 transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+        <div>
+          <label
+            htmlFor="email"
+            className="block text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 mb-2"
           >
-            <UserPlus size={15} />
-            {mutation.isPending ? "Creating user…" : "Create user"}
-          </button>
-        </form>
+            Email address
+          </label>
+          <div className="relative">
+            <Mail className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="jane@example.com"
+              className="w-full rounded-3xl border border-slate-800 bg-slate-950/90 px-12 py-3 text-sm text-slate-200 placeholder:text-slate-600 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20"
+            />
+          </div>
+        </div>
+
+        {mutation.isError && (
+          <div className="flex items-center gap-3 rounded-3xl border border-rose-500/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">
+            <AlertCircle size={16} className="text-rose-300" />
+            <span>Failed to add user. Please try again.</span>
+          </div>
+        )}
+
+        {mutation.isSuccess && (
+          <div className="flex items-center gap-3 rounded-3xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
+            <CheckCircle2 size={16} className="text-emerald-300" />
+            <span>User added successfully!</span>
+          </div>
+        )}
+
+        <button
+          type="submit"
+          disabled={mutation.isPending}
+          className="flex w-full items-center justify-center gap-2 rounded-3xl bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-indigo-500/10 transition hover:-translate-y-0.5 hover:shadow-indigo-500/20 disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          <UserPlus size={16} />
+          {mutation.isPending ? "Creating user…" : "Create user"}
+        </button>
+      </form>
+
+      <div className="mt-6 rounded-3xl border border-white/10 bg-slate-950/80 p-4 text-sm text-slate-400">
+        <p className="font-semibold text-slate-100">Quick tip</p>
+        <p>
+          Use a real name and email to keep the directory readable and
+          consistent.
+        </p>
       </div>
     </section>
   );
