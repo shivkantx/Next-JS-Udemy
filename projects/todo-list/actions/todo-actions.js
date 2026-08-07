@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import connectDB from "@/lib/db";
 import Todo from "@/model/todo";
 import { createTodoSchema } from "@/validation/todo";
+import { success } from "zod";
 
 export async function createTodo(data) {
   try {
@@ -29,6 +30,25 @@ export async function createTodo(data) {
     return {
       success: false,
       error: error instanceof Error ? error.message : "Failed to create todo",
+    };
+  }
+}
+
+export async function getTodos() {
+  try {
+    await connectDB();
+
+    const todos = await Todo.find({}).sort({ createdAt: -1 });
+
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(todos)),
+    };
+  } catch (error) {
+    console.log("Error fetching todos", error);
+    return {
+      success: false,
+      error: "Failed to fetch todos",
     };
   }
 }

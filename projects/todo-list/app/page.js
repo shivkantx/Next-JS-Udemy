@@ -2,6 +2,8 @@ import connectDB from "@/lib/db";
 import Todo from "@/model/todo";
 import React from "react";
 import TodoForm from "@/components/todo-form";
+import TodoList from "@/components/todo-list";
+import TodoFilter from "@/components/todo-filter";
 
 export default async function Home() {
   await connectDB();
@@ -196,6 +198,13 @@ export default async function Home() {
             New entry
           </p>
           <TodoForm />
+        </div>
+
+        {/* Todos filter  */}
+        <TodoFilter />
+
+        <div className=" text-[#A78BFA]">
+          <TodoList />
         </div>
 
         <footer className="flex flex-wrap items-center gap-x-2 gap-y-2 border-t border-white/10 py-6 opacity-0 animate-[rise_0.7s_ease-out_0.45s_forwards]">
