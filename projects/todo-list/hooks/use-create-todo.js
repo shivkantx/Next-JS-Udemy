@@ -1,4 +1,9 @@
-import { createTodo, getTodos } from "@/actions/todo-actions";
+import {
+  createTodo,
+  deleteTodo,
+  getTodos,
+  toggleTodo,
+} from "@/actions/todo-actions";
 import { useTodoStore } from "@/store/todo-store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createTodoSchema } from "@/validation/todo";
@@ -51,5 +56,43 @@ export function useTodos() {
       }
       throw new Error(result.Error);
     },
+  });
+}
+
+export function useToggleTodo() {
+  const queryClient = useQueryClient();
+  const setTodos = useTodoStore((state) => state.setTodos);
+  const todos = useTodoStore((state) => state.todos);
+
+  return useMutation({
+    mutationFn: toggleTodo,
+    onSuccess: (result) => {
+      if (result.success) {
+        setTodos(
+          todos.map((todo) =>
+            todo._id === result.data._id ? result.data : todo,
+          ),
+        );
+      }
+    },
+
+    onError: (error) => console.log("Failed to toogle todo:", error),
+  });
+}
+
+export function useDeleteTodo() {
+  const queryClient = useQueryClient();
+  const setTodos = useTodoStore((state) => state.setTodos);
+  const todos = useTodoStore((state) => state.todos);
+
+  return useMutation({
+    mutationFn: deleteTodo,
+    onSuccess: (result) => {
+      if (result?.success) {
+        setTodos(todos.filter((todo) => todo._id !== result.id));
+        queryClient.invalidateQueries({ queryKey: todoKeys.lists() });
+      }
+    },
+    onError: (error) => console.error("Failed to delete todo:", error),
   });
 }

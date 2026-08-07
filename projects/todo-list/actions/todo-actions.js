@@ -52,3 +52,45 @@ export async function getTodos() {
     };
   }
 }
+
+export async function toggleTodo(id) {
+  try {
+    await connectDB();
+    const todo = await Todo.findById(id);
+    if (!todo) {
+      return {
+        success: false,
+        error: "Todo not found",
+      };
+    }
+    todo.completed = !todo.completed;
+    await todo.save();
+
+    revalidatePath("/");
+    return {
+      success: true,
+      data: JSON.parse(JSON.stringify(todo)),
+    };
+  } catch (error) {
+    console.error("Error toggling todo:", error);
+    return {
+      success: false,
+      error: "Failed to update todo",
+    };
+  }
+}
+
+export async function deleteTodo(id) {
+  try {
+    connectDB();
+    await Todo.findByIdAndDelete(id);
+    revalidatePath("/");
+    return { success: true, id };
+  } catch (error) {
+    console.log("Error deleting todo:", error);
+    return {
+      success: false,
+      error: "Failed to delete todo",
+    };
+  }
+}
