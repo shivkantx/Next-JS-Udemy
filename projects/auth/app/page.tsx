@@ -1,11 +1,21 @@
-import { Button } from "@/components/ui/button";
+import { requireAuth } from "@/lib/auth-guard";
+import Image from "next/image";
 
-export default function Home() {
+async function Home() {
+  const session = await requireAuth();
+  const { user } = session;
+
   return (
-    <div className="flex justify-center items-center min-h-screen bg-zinc-900">
-      <Button variant={"destructive"} size={"lg"}>
-        Click me
-      </Button>
+    <div className="flex min-h-screen items-center justify-center bg-zinc-900 text-white">
+      <Image
+        src={user.image || "/default-avatar.png"}
+        alt="User image"
+        className="h-[200px] w-[200px] object-contain"
+        height={200}
+        width={200}
+      />
     </div>
   );
 }
+
+export default Home;
