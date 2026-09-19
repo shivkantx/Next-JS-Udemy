@@ -10,9 +10,9 @@ async function Home() {
       <Image
         src={user.image || "/default-avatar.png"}
         alt="User image"
-        className="h-[200px] w-[200px] object-contain"
-        height={200}
-        width={200}
+        className="h-50 w-50 object-contain"
+        height={50}
+        width={50}
       />
     </div>
   );

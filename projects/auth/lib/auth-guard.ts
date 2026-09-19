@@ -10,6 +10,7 @@ export async function requireAuth() {
   if (!session) {
     redirect("/login");
   }
+
   return session;
 }
 
@@ -21,5 +22,6 @@ export async function requireUnAuth() {
   if (session) {
     redirect("/");
   }
+
   return session;
 }
