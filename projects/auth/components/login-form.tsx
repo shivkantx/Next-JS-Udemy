@@ -1,8 +1,11 @@
 "use client";
 
 import { useState } from "react";
+
 import { cn } from "@/lib/utils";
+
 import { Button } from "@/components/ui/button";
+
 import {
   Card,
   CardContent,
@@ -10,15 +13,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
 import {
   Field,
   FieldDescription,
   FieldGroup,
   FieldLabel,
-  FieldSeparator,
 } from "@/components/ui/field";
+
 import { Input } from "@/components/ui/input";
+
 import { Eye, EyeOff, Loader2 } from "lucide-react";
+
 import { authClient } from "@/lib/auth-client";
 
 export function LoginForm({
@@ -26,55 +32,62 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
   const [showPassword, setShowPassword] = useState(false);
+
   const [pending, setPending] = useState<"google" | "github" | null>(null);
 
+  // Google Login
   const handleGoogleLogin = async () => {
     setPending("google");
 
     await authClient.signIn.social({
       provider: "google",
-      callbackURL: "/",
+      callbackURL: "/?provider=google",
     });
   };
 
+  // GitHub Login
   const handleGithubLogin = async () => {
     setPending("github");
 
     await authClient.signIn.social({
       provider: "github",
-      callbackURL: "/",
+      callbackURL: "/?provider=github",
     });
   };
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader className="text-center">
-          <CardTitle className="text-xl">Welcome back</CardTitle>
+    <div className={cn("relative w-full", className)} {...props}>
+      <Card className="border border-white/[0.09] bg-[#0d0a18]/90 shadow-2xl shadow-black/40 backdrop-blur-2xl">
+        {/* Header */}
+        <CardHeader className="px-8 pb-4 pt-7 text-center">
+          <CardTitle className="text-2xl font-semibold tracking-tight text-white">
+            Welcome back
+          </CardTitle>
 
-          <CardDescription>
-            Login with your GitHub or Google account
+          <CardDescription className="mt-1 text-sm text-white/40">
+            Sign in to continue to your account
           </CardDescription>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="px-8 pb-6">
           <form>
-            <FieldGroup>
-              {/* Social login */}
-              <Field className="gap-3">
+            <FieldGroup className="gap-4">
+              {/* Social Login */}
+              <div className="flex flex-col gap-3">
                 {/* GitHub */}
                 <Button
                   variant="outline"
                   type="button"
                   disabled={pending !== null}
                   onClick={handleGithubLogin}
+                  className="h-11 w-full border-white/10 bg-white/[0.045] text-white transition-all duration-300 hover:border-violet-500/40 hover:bg-violet-500/10 hover:text-white"
                 >
                   {pending === "github" ? (
                     <Loader2 className="size-4 animate-spin" />
                   ) : (
                     <svg
                       viewBox="0 0 24 24"
-                      className="size-4"
+                      className="size-5"
                       aria-hidden="true"
                     >
                       <path
@@ -83,7 +96,8 @@ export function LoginForm({
                       />
                     </svg>
                   )}
-                  Login with GitHub
+
+                  <span>Continue with GitHub</span>
                 </Button>
 
                 {/* Google */}
@@ -92,13 +106,14 @@ export function LoginForm({
                   type="button"
                   disabled={pending !== null}
                   onClick={handleGoogleLogin}
+                  className="h-11 w-full border-white/10 bg-white/[0.045] text-white transition-all duration-300 hover:border-blue-500/40 hover:bg-blue-500/10 hover:text-white"
                 >
                   {pending === "google" ? (
                     <Loader2 className="size-4 animate-spin" />
                   ) : (
                     <svg
                       viewBox="0 0 24 24"
-                      className="size-4"
+                      className="size-5"
                       aria-hidden="true"
                     >
                       <path
@@ -122,36 +137,57 @@ export function LoginForm({
                       />
                     </svg>
                   )}
-                  Login with Google
-                </Button>
-              </Field>
 
-              <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
-                Or continue with
-              </FieldSeparator>
+                  <span>Continue with Google</span>
+                </Button>
+              </div>
+
+              {/* Divider */}
+              <div className="relative py-1">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-white/[0.08]" />
+                </div>
+
+                <div className="relative flex justify-center">
+                  <span className="bg-[#0d0a18] px-4 text-[11px] font-medium uppercase tracking-[0.15em] text-white/25">
+                    or continue with email
+                  </span>
+                </div>
+              </div>
 
               {/* Email */}
-              <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
+              <Field className="gap-2">
+                <FieldLabel
+                  htmlFor="email"
+                  className="text-sm font-medium text-white/60"
+                >
+                  Email address
+                </FieldLabel>
 
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="you@example.com"
                   required
+                  className="h-11 border-white/10 bg-white/[0.035] text-sm text-white placeholder:text-white/20 focus-visible:border-violet-500/60 focus-visible:ring-violet-500/20"
                 />
               </Field>
 
               {/* Password */}
-              <Field>
+              <Field className="gap-2">
                 <div className="flex items-center">
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
+                  <FieldLabel
+                    htmlFor="password"
+                    className="text-sm font-medium text-white/60"
+                  >
+                    Password
+                  </FieldLabel>
 
                   <a
                     href="#"
-                    className="ml-auto text-sm underline-offset-4 hover:underline"
+                    className="ml-auto text-xs text-violet-400 transition-colors hover:text-violet-300"
                   >
-                    Forgot your password?
+                    Forgot password?
                   </a>
                 </div>
 
@@ -160,16 +196,16 @@ export function LoginForm({
                     id="password"
                     type={showPassword ? "text" : "password"}
                     required
-                    className="pr-10"
+                    className="h-11 border-white/10 bg-white/[0.035] pr-11 text-sm text-white focus-visible:border-violet-500/60 focus-visible:ring-violet-500/20"
                   />
 
                   <button
                     type="button"
-                    onClick={() => setShowPassword((v) => !v)}
+                    onClick={() => setShowPassword((value) => !value)}
                     aria-label={
                       showPassword ? "Hide password" : "Show password"
                     }
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 transition-colors hover:text-violet-400"
                   >
                     {showPassword ? (
                       <EyeOff className="size-4" />
@@ -180,23 +216,47 @@ export function LoginForm({
                 </div>
               </Field>
 
-              {/* Submit */}
-              <Field>
-                <Button type="submit">Login</Button>
+              {/* Sign In */}
+              <Button
+                type="submit"
+                className="mt-1 h-11 w-full border-0 bg-gradient-to-r from-violet-600 via-purple-600 to-blue-600 text-sm font-medium text-white shadow-lg shadow-violet-900/25 transition-all duration-300 hover:from-violet-500 hover:via-purple-500 hover:to-blue-500 hover:shadow-violet-600/30"
+              >
+                Sign in
+              </Button>
 
-                <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="#">Sign up</a>
-                </FieldDescription>
-              </Field>
+              {/* Sign Up */}
+              <FieldDescription className="text-center text-xs text-white/35">
+                Don&apos;t have an account?{" "}
+                <a
+                  href="#"
+                  className="font-medium text-violet-400 transition-colors hover:text-violet-300"
+                >
+                  Create account
+                </a>
+              </FieldDescription>
             </FieldGroup>
           </form>
         </CardContent>
       </Card>
 
-      <FieldDescription className="px-6 text-center">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
-      </FieldDescription>
+      {/* Terms */}
+      <p className="mt-3 px-4 text-center text-[11px] leading-relaxed text-white/25">
+        By continuing, you agree to our{" "}
+        <a
+          href="#"
+          className="text-white/40 transition-colors hover:text-white/70"
+        >
+          Terms of Service
+        </a>{" "}
+        and{" "}
+        <a
+          href="#"
+          className="text-white/40 transition-colors hover:text-white/70"
+        >
+          Privacy Policy
+        </a>
+        .
+      </p>
     </div>
   );
 }
